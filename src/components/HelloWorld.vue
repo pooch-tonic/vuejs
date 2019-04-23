@@ -1,7 +1,8 @@
 <template>
     <div class="hello">
-        <h1>{{ msg }}</h1>
-        <BButton @click="toggleDisplayTime()">{{ this.displayTime ? "Hide current time" : "Display current time" }}</BButton>
+        <ClassicButton 
+        v-bind:onClick="toggleDisplayTime" 
+        v-bind:text="this.displayTime ? 'Hide current time' : 'Display current time'"/>
         <BAlert v-if="displayTime" show>Current time: {{ this.currentTime }}</BAlert>
 
         <div class="todos">
@@ -27,21 +28,25 @@
             Hello, {{ this.fullName }}!
         </p>
 
-        <BButton>
-
-        </BButton>
+        <NavigationButton 
+        pathName="Countries" 
+        text="Countries API"
+        />
     </div>
 </template>
 
 <script>
-import { BButton, BInput, BInputGroup, BAlert } from 'bootstrap-vue/es/components';
+import { BInput, BInputGroup, BAlert } from 'bootstrap-vue/es/components';
+import ClassicButton from './ClassicButton';
+import NavigationButton from './NavigationButton';
 import TodoItem from './TodoItem.vue';
 
 export default {
     name: 'HelloWorld',
     components: {
         TodoItem,
-        'b-button': BButton,
+        ClassicButton,
+        NavigationButton,
         'b-input': BInput,
         'b-input-group': BInputGroup,
         'b-alert': BAlert,
@@ -69,7 +74,7 @@ export default {
     data() {
         return {
             currentTime: new Date().toLocaleString(),
-            displayTime: true,
+            displayTime: false,
             firstName: "",
             lastName: "",
             fullName: "",
@@ -106,10 +111,13 @@ a {
     color: #42b983;
 }
 .input-group {
-    margin: 10px 0;
+    margin: 10px auto;
 }
 .input {
     margin: 40px auto;
     width: 50%;
+}
+.todos {
+    margin-top: 15px;
 }
 </style>
