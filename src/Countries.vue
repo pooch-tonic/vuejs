@@ -1,13 +1,15 @@
 <template>
     <div id="countries">
         <h1 class="title">Countries API</h1>
-        <p>Powered by <a href="this.apiurl">REST Countries API</a>. Looks up for the closest country name to your input.</p>
+        <p>Powered by <a v-bind:href="this.apiUrl">REST Countries API</a>. Looks up for the closest country name to your input.</p>
         <BInputGroup>
             <BInput v-model="countryName" placeholder="Type a country name..." aria-label="Country name"/>
         </BInputGroup>
-        <h4 class="result-message">
-            {{ this.match }}
-        </h4>
+        <transition name="fade">
+            <h4 class="result-message" v-if="this.countryName !== '' && this.countryName !== ' '">
+                {{ this.match }}
+            </h4>
+        </transition>
         <NavigationButton
         pathName="Home"
         text="Go back"
@@ -29,7 +31,7 @@
         },
         data() {
             return {
-                apiUrl: 'https://restcountries.eu/rest/v2/',
+                apiUrl: 'https://restcountries.eu',
                 countryName: '',
                 match: ''
             }
@@ -43,7 +45,7 @@
             getMatchingCountry: function() {
                 this.match = 'Loading...'
                 let ref = this;
-                axios.get(ref.apiUrl + 'name/' + ref.countryName)
+                axios.get(ref.apiUrl + '/rest/v2/name/' + ref.countryName)
                     .then(function (response) {
                         let data = response.data;
                         if (data.length !== 0) {
@@ -62,6 +64,12 @@
 </script>
 
 <style>
+a {
+    text-decoration: none;
+}
+a:hover {
+    text-decoration: none;
+}
 .title {
     margin-bottom: 25px;
 }
@@ -71,5 +79,12 @@
 }
 .result-message {
     margin: 40px 0;
+}
+.fade-enter-active, .fade-leave-active {
+    opacity: 1;
+    transition: opacity 0.25s ease;
+}
+.fade-enter, .fade-leave-to {
+    opacity: 0;
 }
 </style>

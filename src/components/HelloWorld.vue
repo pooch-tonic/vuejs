@@ -3,7 +3,9 @@
         <ClassicButton 
         v-bind:onClick="toggleDisplayTime" 
         v-bind:text="this.displayTime ? 'Hide current time' : 'Display current time'"/>
-        <BAlert v-if="displayTime" show>Current time: {{ this.currentTime }}</BAlert>
+        <transition name="strip">
+            <BAlert v-if="displayTime" show>Current time: {{ this.currentTime }}</BAlert>
+        </transition>
 
         <div class="todos">
             <ul>
@@ -110,6 +112,9 @@ li {
 a {
     color: #42b983;
 }
+.alert {
+    display: block;
+}
 .input-group {
     margin: 10px auto;
 }
@@ -119,5 +124,12 @@ a {
 }
 .todos {
     margin-top: 15px;
+}
+.strip-enter-active, .strip-leave-active {
+    transition: transform 0.15s ease;
+    transform-origin: top;
+}
+.strip-enter, .strip-leave-to {
+    transform: scaleY(0);
 }
 </style>
